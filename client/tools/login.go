@@ -6,15 +6,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"time"
 )
 
 // 完成登录校验函数
-func Login(userId int, userPwd string) error {
+func Login(userId int, userPwd string) (err error) {
 
 	conn, err := net.Dial("tcp", "127.0.0.1:8889")
 	if err != nil {
-		fmt.Println("net.Dial fail, err =", err)
-		return err
+		fmt.Println("net.Dial(\"tcp\", \"127.0.0.1:8889\") fail, err =", err)
+		return
 	}
 	defer conn.Close()
 
@@ -27,15 +28,15 @@ func Login(userId int, userPwd string) error {
 
 	data, err := json.Marshal(loginMes)
 	if err != nil {
-		fmt.Println("json.Marshal fail, err =", err)
-		return err
+		fmt.Println("json.Marshal(loginMes) fail, err =", err)
+		return
 	}
 	mes.Data = string(data)
 
 	data, err = json.Marshal(mes)
 	if err != nil {
-		fmt.Println("json.Marshal fail, err =", err)
-		return err
+		fmt.Println("json.Marshal(mes) fail, err =", err)
+		return
 	}
 
 	// 根据规则 先发送长度 再发送内容
@@ -45,10 +46,19 @@ func Login(userId int, userPwd string) error {
 
 	n, err := conn.Write(infos[:4])
 	if n != 4 || err != nil {
-		fmt.Println("conn.Write fail, err =", err)
-		return err
+		fmt.Println("conn.Write(infos[:4]) fail, err =", err)
+		return
 	}
 
-	fmt.Println("客户端发送消息长度=", len(data), "内容=", string(data))
+	_, err = conn.Write(data)
+	if err != nil {
+		fmt.Println("conn.Write(data) fail, err =", err)
+		return
+	}
+
+	time.Sleep(10 * time.Second)
+	fmt.Println("over..")
+
 	return nil
+
 }
