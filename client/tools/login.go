@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
-	"time"
 )
 
 // 完成登录校验函数
@@ -56,9 +55,20 @@ func Login(userId int, userPwd string) (err error) {
 		return
 	}
 
-	time.Sleep(10 * time.Second)
-	fmt.Println("over..")
+	mes, err = readPkg(conn)
+	if err != nil {
+		fmt.Println("readPke(conn) fail, err =", err)
+		return
+	}
+	var loginResMes message.LoginResMes
+	err = json.Unmarshal([]byte(mes.Data), &loginResMes)
+	if loginResMes.Code == 200 {
+		fmt.Println("登录成功")
+		return nil
+	} else if loginResMes.Code == 500 {
+		fmt.Println(loginResMes.Error)
+		return err
+	}
 
-	return nil
-
+	return
 }

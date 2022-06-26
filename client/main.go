@@ -47,12 +47,8 @@ func main() {
 		fmt.Println("请输入用户pwd：")
 		fmt.Scanln(&userPwd)
 		// 先把登录的函数写到另外一个文件
-		err := tools.Login(userId, userPwd)
-		if err != nil {
-			fmt.Println("登录失败")
-		} else {
-			fmt.Println("登录成功")
-		}
+		tools.Login(userId, userPwd)
+
 	} else if key == 2 {
 		fmt.Println("进行注册用户。。")
 	}
