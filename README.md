@@ -16,7 +16,7 @@
 ---
 
 ### 界面设计
-![主界面图片](photo/%E4%B8%BB%E7%95%8C%E9%9D%A2%E5%9B%BE%E7%89%87.png)
+[主界面图片](https://user-images.githubusercontent.com/101794815/175526091-a7fcf6b3-0254-43d1-97a4-2781dde3b4ad.png)
 
 ---
 
