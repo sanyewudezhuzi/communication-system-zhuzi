@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GoPlus/communication-system-zhuzi/client/util"
+	"GoPlus/communication-system-zhuzi/client/tools"
 	"fmt"
 	"os"
 )
@@ -47,7 +47,7 @@ func main() {
 		fmt.Println("请输入用户pwd：")
 		fmt.Scanln(&userPwd)
 		// 先把登录的函数写到另外一个文件
-		err := util.Login(userId, userPwd)
+		err := tools.Login(userId, userPwd)
 		if err != nil {
 			fmt.Println("登录失败")
 		} else {
