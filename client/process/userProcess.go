@@ -1,15 +1,18 @@
-package tools
+package process
 
 import (
 	"GoPlus/communication-system-zhuzi/common/message"
+	"GoPlus/communication-system-zhuzi/server/utils"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"net"
 )
 
+type UserProcess struct{}
+
 // 完成登录校验函数
-func Login(userId int, userPwd string) (err error) {
+func (this *UserProcess) Login(userId int, userPwd string) (err error) {
 
 	conn, err := net.Dial("tcp", "127.0.0.1:8889")
 	if err != nil {
@@ -55,20 +58,28 @@ func Login(userId int, userPwd string) (err error) {
 		return
 	}
 
-	mes, err = readPkg(conn)
+	tf := &utils.Transfer{
+		Conn: conn,
+	}
+	mes, err = tf.ReadPkg()
 	if err != nil {
-		fmt.Println("readPke(conn) fail, err =", err)
+		fmt.Println("ReadPke() fail, err =", err)
 		return
 	}
 	var loginResMes message.LoginResMes
 	err = json.Unmarshal([]byte(mes.Data), &loginResMes)
 	if loginResMes.Code == 200 {
-		fmt.Println("登录成功")
-		return nil
+
+		// 起一个协程保持和服务器端的通讯，如果服务器有数据推送，则接收并显示再客户端的终端
+		go ServerProcessMes(conn)
+
+		for {
+			ShowMenu()
+		}
+
 	} else if loginResMes.Code == 500 {
 		fmt.Println(loginResMes.Error)
-		return err
 	}
-
 	return
+
 }
