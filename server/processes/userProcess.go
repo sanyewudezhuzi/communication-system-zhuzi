@@ -2,6 +2,7 @@ package processes
 
 import (
 	"GoPlus/communication-system-zhuzi/common/message"
+	"GoPlus/communication-system-zhuzi/server/model"
 	"GoPlus/communication-system-zhuzi/server/utils"
 	"encoding/json"
 	"fmt"
@@ -28,12 +29,21 @@ func (this *UserProcess) ServerProcessLogin(mes *message.Message) (err error) {
 
 	var loginResMes message.LoginResMes
 
-	// id = 100 pwd = 123456
-	if loginMes.UserId == 100 && loginMes.UserPwd == "123456" {
-		loginResMes.Code = 200
+	user, err := model.MyUserDao.Login(loginMes.UserId, loginMes.UserPwd)
+	if err != nil {
+		if err == model.ERROR_USER_NOTEXISTS {
+			loginResMes.Code = 500
+			loginResMes.Error = err.Error()
+		} else if err == model.ERROR_USER_PWD {
+			loginResMes.Code = 403
+			loginResMes.Error = err.Error()
+		} else {
+			loginResMes.Code = 505
+			loginResMes.Error = "服务器内部错误"
+		}
 	} else {
-		loginResMes.Code = 500
-		loginResMes.Error = "用户不存在"
+		loginResMes.Code = 200
+		fmt.Println("user =", user)
 	}
 
 	data, err := json.Marshal(loginResMes)

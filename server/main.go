@@ -1,9 +1,11 @@
 package main
 
 import (
+	"GoPlus/communication-system-zhuzi/server/model"
 	"GoPlus/communication-system-zhuzi/server/processor"
 	"fmt"
 	"net"
+	"time"
 )
 
 // 处理与客户端的通讯
@@ -21,8 +23,14 @@ func process(conn net.Conn) {
 	}
 }
 
+func initUserDao() {
+	model.MyUserDao = model.NewUserDao(processor.Pool)
+}
+
 func main() {
 
+	processor.InitPool("127.0.0.1:6379", 16, 0, 300*time.Second)
+	initUserDao()
 	// 提示信息
 	fmt.Println("服务器在8889端口监听...")
 	listen, err := net.Listen("tcp", "127.0.0.1:8889")
