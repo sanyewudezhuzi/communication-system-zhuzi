@@ -10,9 +10,50 @@ import (
 )
 
 type UserProcess struct {
-	Conn net.Conn // 连接
+	Conn   net.Conn // 连接
+	UserId int      // 表示该Conn是哪个用户的
 }
 
+// 编写通知在线用户的方法
+func (this *UserProcess) NotifyOthersOnlineUser(userId int) {
+	for id, up := range userMgr.onlineUsers {
+		if id == userId {
+			continue
+		}
+		up.NotifyMeOnline(userId)
+	}
+}
+func (this *UserProcess) NotifyMeOnline(userId int) {
+	var mes message.Message
+	mes.Type = message.NotifyUserStatusMesType
+
+	var notifyUserstatusMes message.NotifyUserStatusMes
+	notifyUserstatusMes.UserId = userId
+	notifyUserstatusMes.Status = message.UserOnline
+
+	data, err := json.Marshal(notifyUserstatusMes)
+	if err != nil {
+		fmt.Println("json.Marshal(notifyUserstatusMes) fail, err =", err)
+		return
+	}
+	mes.Data = string(data)
+
+	data, err = json.Marshal(mes)
+	if err != nil {
+		fmt.Println("json.Marshal(mes) fail, err =", err)
+		return
+	}
+
+	tf := utils.Transfer{
+		Conn: this.Conn,
+	}
+	err = tf.WritePkg(data)
+	if err != nil {
+		fmt.Println("tf.WritePkg(data) fail, err =", err)
+	}
+}
+
+// 处理注册请求
 func (this *UserProcess) ServerProcessRegister(mes *message.Message) (err error) {
 
 	var registerMes message.RegisterMes
@@ -91,6 +132,14 @@ func (this *UserProcess) ServerProcessLogin(mes *message.Message) (err error) {
 		}
 	} else {
 		loginResMes.Code = 200
+
+		this.UserId = loginMes.UserId
+		userMgr.AddOnlineUser(this)
+		this.NotifyOthersOnlineUser(loginMes.UserId)
+		for id, _ := range userMgr.onlineUsers {
+			loginResMes.UserIds = append(loginResMes.UserIds, id)
+		}
+
 		fmt.Println("user =", user)
 	}
 

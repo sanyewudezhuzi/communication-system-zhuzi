@@ -1,7 +1,9 @@
 package process
 
 import (
+	"GoPlus/communication-system-zhuzi/common/message"
 	"GoPlus/communication-system-zhuzi/server/utils"
+	"encoding/json"
 	"fmt"
 	"net"
 	"os"
@@ -20,7 +22,7 @@ func ShowMenu() {
 	fmt.Scanln(&key)
 	switch key {
 	case 1:
-		fmt.Println("显示在线用户列表")
+		outputOnlineUser()
 	case 2:
 		fmt.Println("发送消息")
 	case 3:
@@ -44,6 +46,13 @@ func ServerProcessMes(conn net.Conn) {
 			fmt.Println("tf.ReadPkg() fail, err =", err)
 			return
 		}
-		fmt.Println("mes =", mes)
+		switch mes.Type {
+		case message.NotifyUserStatusMesType:
+			var notifyUserStatusMes message.NotifyUserStatusMes
+			json.Unmarshal([]byte(mes.Data), &notifyUserStatusMes)
+			updateUserStatus(&notifyUserStatusMes)
+		default:
+			fmt.Println("服务器返回了未知的消息类型")
+		}
 	}
 }

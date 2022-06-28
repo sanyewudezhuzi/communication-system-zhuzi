@@ -131,6 +131,20 @@ func (this *UserProcess) Login(userId int, userPwd string) (err error) {
 	err = json.Unmarshal([]byte(mes.Data), &loginResMes)
 	if loginResMes.Code == 200 {
 
+		fmt.Println("当前在线用户列表：")
+		for _, v := range loginResMes.UserIds {
+			if v == userId {
+				continue
+			}
+			fmt.Println("用户Id：\t", v)
+			user := &message.User{
+				UserId:     v,
+				UserStatus: message.UserOnline,
+			}
+			onlineUsers[v] = user
+		}
+		fmt.Println("\n\n")
+
 		// 起一个协程保持和服务器端的通讯，如果服务器有数据推送，则接收并显示再客户端的终端
 		go ServerProcessMes(conn)
 
