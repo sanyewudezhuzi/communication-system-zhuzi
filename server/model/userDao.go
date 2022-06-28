@@ -1,6 +1,7 @@
 package model
 
 import (
+	"GoPlus/communication-system-zhuzi/common/message"
 	"encoding/json"
 	"fmt"
 
@@ -54,6 +55,30 @@ func (this *UserDao) Login(userId int, userPwd string) (user *User, err error) {
 
 	if user.UserPwd != userPwd {
 		err = ERROR_USER_PWD
+	}
+
+	return
+}
+
+// 完成注册的校验
+func (this *UserDao) Register(user *message.User) (err error) {
+	conn := this.pool.Get()
+	defer conn.Close()
+
+	_, err = this.getUserById(conn, user.UserId)
+	if err == nil {
+		err = ERROR_USER_EXISTS
+		return
+	}
+
+	data, err := json.Marshal(user)
+	if err != nil {
+		fmt.Println("json.Marshal(user) fail, err =", err)
+		return
+	}
+	_, err = conn.Do("HSet", "users", user.UserId, string(data))
+	if err != nil {
+		fmt.Println("conn.Do() fail, err =", err)
 	}
 
 	return

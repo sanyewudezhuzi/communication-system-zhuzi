@@ -2,9 +2,10 @@ package message
 
 // 消息常量
 const (
-	LoginMesType    = "LoginMes"    // 登录
-	LoginResMesType = "LoginResMes" // 登录响应
-	RegisterMesType = "RegisterMes" // 注册
+	LoginMesType       = "LoginMes"       // 登录
+	LoginResMesType    = "LoginResMes"    // 登录响应
+	RegisterMesType    = "RegisterMes"    // 注册
+	RegisterResMesType = "RegisterResMes" // 注册响应
 )
 
 type Message struct {
@@ -27,4 +28,11 @@ type LoginResMes struct {
 
 // 注册消息
 type RegisterMes struct {
+	User User `json:"user"` // 类型就是User结构体
+}
+
+// 注册回送消息
+type RegisterResMes struct {
+	Code  int    `json:"code"` // 状态码 400-已占用 200-成功
+	Error string `json:"error"`
 }
