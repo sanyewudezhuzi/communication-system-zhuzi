@@ -13,8 +13,8 @@ import (
 func ShowMenu() {
 	fmt.Println("--------恭喜登录成功--------")
 	fmt.Println("\t1.在线列表")
-	fmt.Println("\t2.发送消息")
-	fmt.Println("\t3.信息列表")
+	fmt.Println("\t2.广播消息")
+	fmt.Println("\t3.私密消息")
 	fmt.Println("\t4.退出系统")
 	fmt.Println("\t请选择(1~4):")
 
@@ -26,12 +26,13 @@ func ShowMenu() {
 	case 1:
 		outputOnlineUser()
 	case 2:
-		fmt.Println("群聊发送：")
+		fmt.Println("广播发送：")
 		fmt.Scanln(&content)
 		smsProcess.SendGroupMes(content)
 	case 3:
-		fmt.Println("消息列表")
+		fmt.Println("私密消息。。。")
 	case 4:
+		offline()
 		fmt.Println("你退出了系统")
 		os.Exit(0)
 	default:
@@ -57,6 +58,10 @@ func ServerProcessMes(conn net.Conn) {
 			updateUserStatus(&notifyUserStatusMes)
 		case message.SmsMesType:
 			outputGroupMes(&mes)
+		case message.UserStatusToOfflineType:
+			var notifyUserStatusMes message.NotifyUserStatusMes
+			json.Unmarshal([]byte(mes.Data), &notifyUserStatusMes)
+			outputOfflineUser(&notifyUserStatusMes)
 		default:
 			fmt.Println("服务器返回了未知的消息类型")
 		}

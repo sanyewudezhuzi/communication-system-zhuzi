@@ -12,7 +12,7 @@ var CurUser model.CurUser
 // 在客户端显示当前在线用户
 func outputOnlineUser() {
 	fmt.Println("当前在线用户列表：")
-	for id, _ := range onlineUsers {
+	for id := range onlineUsers {
 		fmt.Println("用户id =：\t", id)
 	}
 }
@@ -29,4 +29,24 @@ func updateUserStatus(notifyUserStatusMes *message.NotifyUserStatusMes) {
 	onlineUsers[notifyUserStatusMes.UserId] = user
 
 	outputOnlineUser()
+}
+
+// 离线
+func outputOfflineUser(notifyUserStatusMes *message.NotifyUserStatusMes) {
+	user, ok := onlineUsers[notifyUserStatusMes.UserId]
+	if !ok {
+		user = &message.User{
+			UserId: notifyUserStatusMes.UserId,
+		}
+	}
+	notifyUserStatusMes.Status = message.UserOffline
+	user.UserStatus = notifyUserStatusMes.Status
+	onlineUsers[notifyUserStatusMes.UserId] = user
+
+	outputOnlineUser()
+}
+func offline() {
+
+	var mes message.Message
+	mes.Type = message.LoginMesType
 }

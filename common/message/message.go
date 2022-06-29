@@ -8,6 +8,7 @@ const (
 	RegisterResMesType      = "RegisterResMes" // 注册响应
 	NotifyUserStatusMesType = "NotifyUserStatusMes"
 	SmsMesType              = "SmsMes"
+	UserStatusToOfflineType = "UserStatusToOffline"
 )
 
 type Message struct {
@@ -16,9 +17,8 @@ type Message struct {
 }
 
 const (
-	UserOnline = iota
-	UserOffline
-	UserBusyStatus
+	UserOnline  = 1
+	UserOffline = 0
 )
 
 // 登录消息
