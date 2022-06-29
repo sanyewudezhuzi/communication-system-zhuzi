@@ -1,8 +1,9 @@
 package model
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
 	"net"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
 )
 
 type CurUser struct {

@@ -1,9 +1,10 @@
 package process
 
 import (
-	"GoPlus/communication-system-zhuzi/client/model"
-	"GoPlus/communication-system-zhuzi/common/message"
 	"fmt"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/client/model"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
 )
 
 var onlineUsers map[int]*message.User = make(map[int]*message.User, 10)

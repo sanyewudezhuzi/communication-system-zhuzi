@@ -1,12 +1,13 @@
 package process
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
-	"GoPlus/communication-system-zhuzi/server/utils"
 	"encoding/json"
 	"fmt"
 	"net"
 	"os"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/client/utils"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
 )
 
 // 显示登录成功后的界面

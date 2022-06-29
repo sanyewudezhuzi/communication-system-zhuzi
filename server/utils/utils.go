@@ -1,12 +1,13 @@
 package utils
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
 )
 
 type Transfer struct {

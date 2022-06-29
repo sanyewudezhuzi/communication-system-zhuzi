@@ -1,13 +1,14 @@
 package process
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
-	"GoPlus/communication-system-zhuzi/server/utils"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"net"
 	"os"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/client/utils"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
 )
 
 type UserProcess struct{}

@@ -1,12 +1,13 @@
 package processor
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
-	"GoPlus/communication-system-zhuzi/server/processes"
-	"GoPlus/communication-system-zhuzi/server/utils"
 	"fmt"
 	"io"
 	"net"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/server/processes"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/server/utils"
 )
 
 type Processor struct {

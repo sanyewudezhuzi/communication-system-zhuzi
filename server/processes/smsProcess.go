@@ -1,11 +1,12 @@
 package processes
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
-	"GoPlus/communication-system-zhuzi/server/utils"
 	"encoding/json"
 	"fmt"
 	"net"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/server/utils"
 )
 
 type SmsProcess struct{}

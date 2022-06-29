@@ -1,4 +1,4 @@
-module GoPlus/communication-system-zhuzi
+module github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi
 
 go 1.17
 

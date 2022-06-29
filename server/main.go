@@ -1,11 +1,12 @@
 package main
 
 import (
-	"GoPlus/communication-system-zhuzi/server/model"
-	"GoPlus/communication-system-zhuzi/server/processor"
 	"fmt"
 	"net"
 	"time"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/server/model"
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/server/processor"
 )
 
 // 处理与客户端的通讯

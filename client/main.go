@@ -1,9 +1,10 @@
 package main
 
 import (
-	"GoPlus/communication-system-zhuzi/client/process"
 	"fmt"
 	"os"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/client/process"
 )
 
 var (

@@ -1,9 +1,10 @@
 package process
 
 import (
-	"GoPlus/communication-system-zhuzi/common/message"
 	"encoding/json"
 	"fmt"
+
+	"github.com/NotAPigInTheTrefoilHouse/communication-system-zhuzi/common/message"
 )
 
 func outputGroupMes(mes *message.Message) {
