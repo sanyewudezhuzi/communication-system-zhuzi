@@ -19,12 +19,16 @@ func ShowMenu() {
 	fmt.Println("\t请选择(1~4):")
 
 	var key int
+	var content string
+	smsProcess := &SmsProcess{}
 	fmt.Scanln(&key)
 	switch key {
 	case 1:
 		outputOnlineUser()
 	case 2:
-		fmt.Println("发送消息")
+		fmt.Println("群聊发送：")
+		fmt.Scanln(&content)
+		smsProcess.SendGroupMes(content)
 	case 3:
 		fmt.Println("消息列表")
 	case 4:
@@ -51,6 +55,8 @@ func ServerProcessMes(conn net.Conn) {
 			var notifyUserStatusMes message.NotifyUserStatusMes
 			json.Unmarshal([]byte(mes.Data), &notifyUserStatusMes)
 			updateUserStatus(&notifyUserStatusMes)
+		case message.SmsMesType:
+			outputGroupMes(&mes)
 		default:
 			fmt.Println("服务器返回了未知的消息类型")
 		}

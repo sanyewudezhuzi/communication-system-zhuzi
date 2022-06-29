@@ -1,11 +1,13 @@
 package process
 
 import (
+	"GoPlus/communication-system-zhuzi/client/model"
 	"GoPlus/communication-system-zhuzi/common/message"
 	"fmt"
 )
 
 var onlineUsers map[int]*message.User = make(map[int]*message.User, 10)
+var CurUser model.CurUser
 
 // 在客户端显示当前在线用户
 func outputOnlineUser() {
