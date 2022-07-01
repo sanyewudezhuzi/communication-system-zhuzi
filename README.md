@@ -34,3 +34,9 @@
 
 ### 特别鸣谢
 [尚硅谷韩老师的B站课程](https://www.bilibili.com/video/BV1ME411Y71o?p=301&spm_id_from=pageDriver&vd_source=6c33433908a4c5e26cc67c560056ae86)
+
+ps：
+
+服务器启动：打开server文件夹 -> go run main.go
+
+客户端启动：打开client文件夹 -> go run main.go
